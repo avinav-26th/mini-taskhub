@@ -5,6 +5,7 @@ import '../../../auth/data/auth_repository.dart';
 import '../../../auth/presentation/controllers/auth_controller.dart';
 import '../../../categories/presentation/screens/manage_categories_screen.dart';
 import '../../../settings/presentation/controllers/theme_controller.dart';
+import '../../../settings/presentation/screens/settings_screen.dart';
 import '../screens/trash_screen.dart';
 
 class SideMenu extends ConsumerWidget {
@@ -62,6 +63,16 @@ class SideMenu extends ConsumerWidget {
             secondary: Icon(themeState.isDarkMode ? Icons.dark_mode : Icons.light_mode),
             value: themeState.isDarkMode,
             onChanged: (val) => ref.read(themeProvider.notifier).toggleTheme(),
+          ),
+
+          // Settings
+          ListTile(
+            leading: const Icon(Icons.settings_outlined),
+            title: const Text("Settings"),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsScreen()));
+            },
           ),
 
           const Spacer(),

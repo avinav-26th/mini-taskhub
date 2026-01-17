@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mini_taskhub_pro/features/stats/presentation/screens/statistics_screen.dart';
 import '../features/auth/data/auth_repository.dart';
+import '../features/auth/presentation/controllers/auth_controller.dart';
 import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/signup_screen.dart';
 import '../features/tasks/presentation/screens/dashboard_screen.dart';
@@ -19,6 +20,9 @@ final authStateProvider = StreamProvider<void>((ref) {
 final routerProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authStateProvider);
   final authRepository = ref.read(authRepositoryProvider);
+
+  // When login() finishes, this triggers a rebuild, running the redirect logic again.
+  ref.watch(authControllerProvider);
 
   // Define keys for the tabs to preserve state
   final rootNavigatorKey = GlobalKey<NavigatorState>();

@@ -17,6 +17,15 @@ final taskListProvider = StateNotifierProvider<TaskListController, AsyncValue<Li
 class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
   final TaskRepository _repository;
 
+  void reorderLocal(int oldIndex, int newIndex) {
+    state.whenData((tasks) {
+      final items = List<Task>.from(tasks);
+      final item = items.removeAt(oldIndex);
+      items.insert(newIndex, item);
+      state = AsyncValue.data(items);
+    });
+  }
+
   TaskListController(this._repository) : super(const AsyncValue.loading()) {
     loadTasks();
   }

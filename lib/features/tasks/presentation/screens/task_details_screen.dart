@@ -269,7 +269,7 @@ class _TaskDetailsScreenState extends ConsumerState<TaskDetailsScreen> {
                   ),
                   const SizedBox(height: 24),
 
-                  // 3. POMODORO TIMER
+                  // 3. POMODORO TIMER (Editable Version)
                   Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
@@ -279,7 +279,54 @@ class _TaskDetailsScreenState extends ConsumerState<TaskDetailsScreen> {
                     ),
                     child: Column(
                       children: [
-                        const Text("FOCUS SESSION", style: TextStyle(color: Colors.white70, fontSize: 12, fontWeight: FontWeight.bold)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text("FOCUS SESSION", style: TextStyle(color: Colors.white70, fontSize: 12, fontWeight: FontWeight.bold)),
+                            // EDIT DURATION BUTTON
+                            IconButton(
+                              icon: const Icon(Icons.settings, color: Colors.white70, size: 20),
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                              onPressed: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (c) => Container(
+                                    padding: const EdgeInsets.all(24),
+                                    decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: const BorderRadius.vertical(top: Radius.circular(20))),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text("Set Timer Duration", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: textColor)),
+                                        const SizedBox(height: 20),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: [15, 25, 45, 60].map((min) => ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: themeColor,
+                                              foregroundColor: Colors.white,
+                                              shape: const CircleBorder(),
+                                              padding: const EdgeInsets.all(20),
+                                            ),
+                                            onPressed: () {
+                                              ref.read(timerProvider.notifier).setDuration(min);
+                                              Navigator.pop(c);
+                                            },
+                                            child: Text("$min"),
+                                          )).toList(),
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Text("minutes", style: TextStyle(color: textColor)),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
                         Text(
                           "${(timerState.timeLeft ~/ 60).toString().padLeft(2, '0')}:${(timerState.timeLeft % 60).toString().padLeft(2, '0')}",
                           style: const TextStyle(fontSize: 48, color: Colors.white, fontWeight: FontWeight.bold),

@@ -20,15 +20,15 @@ class AIService {
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
-          "model": "llama3-8b-8192", // The fast, instant model
+          "model": "llama-3.1-8b-instant", // The fast, instant model
           "messages": [
             {
               "role": "system",
               "content": "You are a task manager. Split the given task into 3-5 distinct, actionable subtasks. Return ONLY a raw JSON array of strings. Example: [\"Step 1\", \"Step 2\"]. Do not add markdown formatting or extra text."
             },
-            {"role": "user", "content": "Split this task: $taskTitle"}
+            {"role": "user", "content": "Task: ${taskTitle.replaceAll('"', "'")}"}
           ],
-          "temperature": 0.5,
+          "temperature": 0.3,
         }),
       );
 
@@ -59,11 +59,11 @@ class AIService {
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
-          "model": "llama3-8b-8192",
+          "model": "llama-3.1-8b-instant",
           "messages": [
             {
               "role": "system",
-              "content": "You are a motivational coach. Give a short (2 sentences max), punchy advice on how to start the given task. Use an emoji."
+              "content": "You are a motivational coach. Give a short (2 sentences max), punchy advice on how to start the given task. Use an emoji. Do not be too wordy."
             },
             {"role": "user", "content": "Give motivation for: $taskTitle"}
           ],
