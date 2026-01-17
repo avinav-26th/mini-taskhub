@@ -97,3 +97,13 @@ class Task {
     );
   }
 }
+
+extension TaskListExt on List<Task> {
+  Task? lookup(int id) {
+    try {
+      return firstWhere((t) => t.id == id);
+    } catch (e) {
+      return null;
+    }
+  }
+}

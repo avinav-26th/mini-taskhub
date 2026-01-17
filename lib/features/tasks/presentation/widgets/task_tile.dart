@@ -31,7 +31,7 @@ class TaskTile extends StatelessWidget {
       onTap: () {
         Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => TaskDetailsScreen(task: task))
+            MaterialPageRoute(builder: (_) => TaskDetailsScreen(initialTask: task))
         );
       },
       child: Padding(
