@@ -1,6 +1,5 @@
 // [1] VERSION: 2.0.0 - Timer Controller with Editable Duration
 import 'dart:async';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 
 // State Class

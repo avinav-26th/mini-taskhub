@@ -5,11 +5,13 @@
 import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
+import 'package:mini_taskhub_pro/app/router.dart';
 import '../../data/task_repository.dart';
 import '../../domain/task_model.dart';
 
 // 1. The Single Provider for everything (Data + Actions)
 final taskListProvider = StateNotifierProvider<TaskListController, AsyncValue<List<Task>>>((ref) {
+  ref.watch(authStateProvider);
   final repository = ref.read(taskRepositoryProvider);
   return TaskListController(repository);
 });
@@ -33,9 +35,17 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
   // 2. Load Tasks (Future based)
   Future<void> loadTasks() async {
     try {
+      // Safety Check: Don't fetch if no user (prevents the "User not logged in" error)
+      // We assume the repository check will handle it, but the provider rebuild ensures
+      // we only run this when the state is valid.
       final tasks = await _repository.fetchTasks();
       state = AsyncValue.data(tasks);
     } catch (e, st) {
+      // If it's the specific "User not logged in" error, we can ignore or log gently
+      if (e.toString().contains('User not logged in')) {
+        log('⏳ Waiting for auth to settle...');
+        return;
+      }
       state = AsyncValue.error(e, st);
     }
   }

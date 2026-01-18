@@ -48,7 +48,7 @@ class _ManageCategoriesScreenState extends ConsumerState<ManageCategoriesScreen>
                     spacing: 10,
                     runSpacing: 10,
                     children: _presetColors.map((color) {
-                      final isSelected = selectedColor.value == color.value;
+                      final isSelected = selectedColor.toARGB32() == color.toARGB32();
                       return GestureDetector(
                         onTap: () => setDialogState(() => selectedColor = color),
                         child: Container(
@@ -71,7 +71,7 @@ class _ManageCategoriesScreenState extends ConsumerState<ManageCategoriesScreen>
                 ElevatedButton(
                   onPressed: () {
                     if (controller.text.isNotEmpty) {
-                      final hex = '#${selectedColor.value.toRadixString(16).substring(2)}';
+                      final hex = '#${selectedColor.toARGB32().toRadixString(16).substring(2)}';
 
                       if (isEditing) {
                         // TODO: Add updateCategory to Controller (Need to implement in Controller first)

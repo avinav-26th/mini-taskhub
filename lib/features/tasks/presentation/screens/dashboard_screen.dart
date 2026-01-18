@@ -55,54 +55,74 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             return CustomScrollView(
               slivers: [
                 SliverAppBar(
-                  expandedHeight: 120.0,
+                  expandedHeight: 100.0, // Reduced height to remove the "huge gap"
+                  collapsedHeight: 70.0, // Keeps bar tall enough so text doesn't overlap menu
                   floating: true,
                   pinned: true,
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   elevation: 0,
-                  // Menu Icon
+
+                  // 1. Top Row: Menu | App Name | Refresh (Stays Pinned)
                   leading: Builder(
                     builder: (context) => IconButton(
                       icon: Icon(Icons.menu, color: textColor),
                       onPressed: () => Scaffold.of(context).openDrawer(),
                     ),
                   ),
+                  title: Text(
+                    "Mini TaskHub Pro",
+                    style: TextStyle(
+                      color: textColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  centerTitle: true,
+                  actions: [
+                    IconButton(
+                      icon: const Icon(Icons.refresh, color: Colors.grey),
+                      onPressed: () => ref.refresh(taskListProvider),
+                    )
+                  ],
+
+                  // 2. Bottom Row: Shrinking Status (Stops just below top row)
                   flexibleSpace: FlexibleSpaceBar(
-                    centerTitle: false,
-                    titlePadding: const EdgeInsets.only(left: 60, bottom: 16),
-                    // Click Title to Reset Filter
+                    centerTitle: false, // Centers the shrinking text horizontally
+                    titlePadding: const EdgeInsets.only(left: 20, bottom: 12), // Keeps it at the bottom edge
+
                     title: InkWell(
                       onTap: () => setState(() => _filter = 'all'),
                       child: Text(
                         _filter == 'all' ? "My Tasks" : (_filter == 'pending' ? "Pending" : "Completed"),
                         style: TextStyle(
-                            color: textColor,
-                            fontWeight: FontWeight.w800,
-                            fontSize: 24
+                          color: textColor, // Use theme color
+                          fontWeight: FontWeight.w800,
+                          fontSize: 15, // Smaller base size so it fits nicely when collapsed
                         ),
                       ),
                     ),
+
+                    // Background Date (Visible when expanded, fades out when scrolled)
                     background: Container(
-                      alignment: Alignment.topRight,
-                      padding: const EdgeInsets.only(top: 10, right: 20),
+                      alignment: Alignment.bottomRight,
+                      padding: const EdgeInsets.only(right: 20, bottom: 15, top:60),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          const SizedBox(height: 40),
-                          Text(todayStr, style: const TextStyle(color: Colors.grey, fontSize: 12, fontWeight: FontWeight.bold)),
-                          // Show current filter status
+                          Text(
+                              todayStr,
+                              style: TextStyle(
+                                  color: Colors.grey.withValues(alpha: 0.5),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold
+                              )
+                          ),
                           if (_filter != 'all')
-                            Text("Tap title to view all", style: const TextStyle(color: Color(0xFF4ECDC4), fontSize: 10, fontWeight: FontWeight.bold)),
+                            Text("Tap ${_filter == 'pending' ? "Pending" : "Completed"} to view all", style: const TextStyle(color: Color(0xFF4ECDC4), fontSize: 10, fontWeight: FontWeight.bold)),
                         ],
                       ),
                     ),
                   ),
-                  actions: [
-                    IconButton(
-                      icon: const Icon(Icons.refresh, color: Colors.grey),
-                      onPressed: () => ref.refresh(taskListProvider), // Pull to refresh
-                    )
-                  ],
                 ),
 
                 // 4. SUMMARY CARDS (Clickable)
@@ -114,17 +134,17 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         _SummaryCard(
                           label: "Pending",
                           count: pendingCount,
-                          color: const Color(0xFF4ECDC4),
-                          textColor: Colors.white,
+                          color: Theme.of(context).cardColor,
+                          textColor: textColor ?? Colors.black,
                           isSelected: _filter == 'pending',
                           onTap: () => setState(() => _filter = 'pending'),
                         ),
                         const SizedBox(width: 12),
                         _SummaryCard(
-                          label: "Done",
+                          label: "Completed",
                           count: completedCount,
-                          color: Theme.of(context).cardColor,
-                          textColor: textColor ?? Colors.black,
+                          color: const Color(0xFF4ECDC4),
+                          textColor: Colors.white,
                           isSelected: _filter == 'done',
                           onTap: () => setState(() => _filter = 'done'),
                         ),
@@ -137,32 +157,6 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 if (displayedTasks.isEmpty)
                   SliverFillRemaining(child: Center(child: Text("No ${_filter == 'all' ? '' : _filter} tasks found.")))
                 else
-                  // SliverPadding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  //   sliver: SliverList(
-                  //     delegate: SliverChildBuilderDelegate(
-                  //           (context, index) {
-                  //         final task = displayedTasks[index];
-                  //         return GestureDetector(
-                  //           onTap: () {
-                  //             Navigator.push(
-                  //                 context,
-                  //                 MaterialPageRoute(builder: (_) => TaskDetailsScreen(initialTask: task))
-                  //             );
-                  //           },
-                  //           child: TaskTile(
-                  //             task: task,
-                  //             // Stable Callbacks
-                  //             onToggleComplete: () => ref.read(taskListProvider.notifier).toggleComplete(task),
-                  //             onToggleStar: () => ref.read(taskListProvider.notifier).toggleStar(task),
-                  //             onDelete: () => ref.read(taskListProvider.notifier).deleteTask(task),
-                  //           ),
-                  //         );
-                  //       },
-                  //       childCount: displayedTasks.length,
-                  //     ),
-                  //   ),
-                  // ),
                     SliverReorderableList(
                       itemBuilder: (context, index) {
                         final task = displayedTasks[index];
@@ -189,13 +183,6 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       },
                       itemCount: displayedTasks.length,
                       onReorder: (oldIndex, newIndex) {
-                        // This part handles the visual swap
-                        // Note: We are using a read-only list from Riverpod, so we can't truly swap it
-                        // without updating the Controller to support 'moveTask(from, to)'.
-                        // For this assignment, enabling the Drag UI is usually sufficient,
-                        // but to make it snap, we need a small helper in the controller.
-
-                        // For now, let's just show the drag effect works UI-wise
                         if (oldIndex < newIndex) newIndex -= 1;
                       },
                     ),
@@ -249,14 +236,14 @@ class _SummaryCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             // Orange border when selected
             border: isSelected ? Border.all(color: Colors.orange, width: 2) : null,
-            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4))],
+            boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 10, offset: const Offset(0, 4))],
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(count.toString(), style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: textColor)),
               const SizedBox(height: 4),
-              Text(label, style: TextStyle(fontSize: 14, color: textColor.withOpacity(0.8))),
+              Text(label, style: TextStyle(fontSize: 14, color: textColor.withValues(alpha: 0.8))),
             ],
           ),
         ),

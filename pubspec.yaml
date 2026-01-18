@@ -104,6 +104,14 @@ flutter:
 flutter_native_splash:
   color: "#4ECDC4"
   image: assets/images/app_logo.png
+  branding: assets/images/app_logo.png
   android_12:
     image: assets/images/app_logo.png
     icon_background_color: "#4ECDC4"
+  fullscreen: true
+
+flutter_launcher_icons:
+  android: "ic_launcher"
+  ios: true
+  image_path: "assets/icon/icon.png"
+  min_sdk_android: 21 # Support newer Android adaptive icons

@@ -12,7 +12,7 @@ class SettingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeState = ref.watch(themeProvider);
-    final textColor = Theme.of(context).textTheme.bodyLarge?.color;
+    // final textColor = Theme.of(context).textTheme.bodyLarge?.color;
 
     return Scaffold(
       appBar: AppBar(title: const Text("Settings")),

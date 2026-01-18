@@ -37,7 +37,7 @@ class TrashScreen extends ConsumerWidget {
               children: [
                 const Icon(Icons.delete_outline, size: 64, color: Colors.grey),
                 const SizedBox(height: 16),
-                Text("Trash is empty", style: TextStyle(color: textColor?.withOpacity(0.5))),
+                Text("Trash is empty", style: TextStyle(color: textColor?.withValues(alpha: 0.5))),
               ],
             ));
           }
