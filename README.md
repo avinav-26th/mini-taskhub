@@ -8,11 +8,12 @@
 
 ## 📱 App Preview & Demo
 
-| Dashboard & Filters | Task Details & AI | Analytics & Dark Mode |
+| Dashboard | Task Details | Analytics |
 |:---:|:---:|:---:|
-| <img src="screenshots/dashboard.png" width="200"/> | <img src="screenshots/details.png" width="200"/> | <img src="screenshots/analytics.png" width="200"/> |
 
-📺 **[Watch the Walkthrough Video Here](YOUR_YOUTUBE_OR_DRIVE_LINK_HERE)** 📥 **[Download the APK Here](YOUR_GITHUB_RELEASES_LINK_HERE)**
+| <img src="https://github.com/user-attachments/assets/ef280d2a-cd08-4dd6-9a87-e820d30b6dbc" width="200"/> | <img src="https://github.com/user-attachments/assets/49b3e2eb-bd99-4cb0-8a15-9e37312de1af" width="200"/> | <img src="https://github.com/user-attachments/assets/d60d75e1-7407-4815-8256-8ad574345844" width="200"/> |
+
+📺 **[Watch the Walkthrough Video Here](https://drive.google.com/file/d/1L16krikKgZI56TLilt_NA4J_MnCFcI0l/view?usp=drive_link)** 📥 **[Download the APK Here](https://github.com/avinav-26th/mini-taskhub/releases/tag/v1.0.0)**
 
 ---
 
@@ -65,6 +66,8 @@ lib/
 │   ├── categories/      # Category Management
 │   ├── pomodoro/        # Timer Logic
 │   ├── ai/              # Groq API Integration
+│   ├── stats/           # Statistical Analysis
+│   ├── home/            # Home and Navigation
 │   └── settings/        # Theme & App Settings
 └── main.dart            # Entry point
 
@@ -147,5 +150,11 @@ flutter run
 * **Collaboration:** Share lists with other users via Supabase Realtime.
 
 ---
+
+## Other ScreenShots
+
+| <img src="https://github.com/user-attachments/assets/d7ecb6be-16d5-447e-a322-8e0757cb6b0e" width="200"/> | <img src="https://github.com/user-attachments/assets/c35b8354-120a-4ce8-8ac1-3e9afe4b4799" width="200"/> | <img src="https://github.com/user-attachments/assets/d89ff409-bc09-48a1-92ac-206cc0254d71" width="200"/> | <img src="https://github.com/user-attachments/assets/b2eecf3d-9a9d-4ae6-9864-af794dcfbd1c" width="200"/> | <img src="https://github.com/user-attachments/assets/5a5887ee-e497-428f-9554-15d37bcb3b2c" width="200"/> | <img src="https://github.com/user-attachments/assets/18466ecf-06ea-4d47-a261-ff2241d8daff" width="200"/> | <img src="https://github.com/user-attachments/assets/69399d1a-b35f-4411-9e73-02528f857282" width="200"/> | <img src="https://github.com/user-attachments/assets/30f4f1d7-7126-4473-ab77-80c4879f5bb9" width="200"/> | <img src="https://github.com/user-attachments/assets/7d8861e4-d38e-40fe-84d2-fa436ad015de" width="200"/> | <img src="https://github.com/user-attachments/assets/b0fbf936-88d9-4076-a615-91c947feab6c" width="200"/> | <img src="
+![photo_2026-01-18_19-36-47](https://github.com/user-attachments/assets/78d9af4f-7876-43f5-b4c2-e1bb2d016f19" width="200"/> | <img src="https://github.com/user-attachments/assets/036f22fe-8471-41f1-9377-5903f834e54d" width="200"/> | <img src="https://github.com/user-attachments/assets/f01e23d6-bef3-4eca-841d-86124922d7eb" width="200"/> | <img src="https://github.com/user-attachments/assets/75a22077-517e-4185-a219-a0fd149b59f3" width="200"/> | <img src="https://github.com/user-attachments/assets/708c8f9c-ed4e-4f18-b79f-9701a1bc41e8" width="200"/> |
+
 
 **Built with ❤️ by Avinav Prasad**
